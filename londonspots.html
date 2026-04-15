@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080808">
+<title>London Photo Spots</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080808; --card:#141414; --card2:#111;
+  --border:rgba(200,146,58,0.16); --border2:rgba(255,255,255,0.06);
+  --gold:#C8923A; --gold-l:#E8B86D; --gold-d:#7a5a28;
+  --gold-dim:rgba(200,146,58,0.12);
+  --cream:#F5F0E8; --muted:#6a6156; --muted2:#3a3530;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);
+  min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(76px + env(safe-area-inset-bottom, 0px))}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+
+/* ── COVER ── */
+.cover{position:relative;min-height:42vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 20px 28px;overflow:hidden}
+.cover-bg{position:absolute;inset:0;background:
+  radial-gradient(ellipse 100% 80% at 10% 0%,rgba(200,146,58,0.18) 0%,transparent 55%),
+  radial-gradient(ellipse 60% 60% at 90% 80%,rgba(74,139,196,0.08) 0%,transparent 55%),
+  linear-gradient(180deg,#0d0d0d 0%,#080808 100%)}
+.cover-inner{position:relative;z-index:1}
+.cover-eye{font-size:0.6rem;font-weight:600;letter-spacing:0.35em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.cover-title{font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(2.6rem,11vw,4.8rem);line-height:0.9;color:var(--cream);
+  letter-spacing:-0.02em;margin-bottom:12px}
+.cover-title em{font-style:italic;color:var(--gold-l)}
+.cover-meta{display:flex;align-items:center;gap:12px}
+.cover-rule{width:26px;height:1px;background:var(--gold-d)}
+.cover-byline{font-size:0.58rem;font-weight:600;letter-spacing:0.28em;
+  text-transform:uppercase;color:var(--gold-d)}
+.cover-count{font-size:0.6rem;font-weight:600;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--muted)}
+
+/* ── VIEW HEADER (walks page) ── */
+.view-head{padding:24px 20px 4px}
+.view-head-eye{font-size:0.6rem;font-weight:600;letter-spacing:0.35em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.view-head-title{font-family:'Cormorant Garamond',serif;font-size:2rem;
+  font-weight:300;color:var(--cream);line-height:1;margin-bottom:8px}
+.view-head-title em{font-style:italic;color:var(--gold-l)}
+.view-head-sub{font-family:'Cormorant Garamond',serif;font-size:0.92rem;
+  font-style:italic;color:var(--muted);line-height:1.55}
+
+/* ── STICKY CONTROLS ── */
+.controls{position:sticky;top:0;z-index:100;
+  background:rgba(8,8,8,0.96);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border2);
+  padding-top:12px}
+.search-wrap{padding:0 16px 10px;position:relative}
+.s-icon{position:absolute;left:30px;top:50%;transform:translateY(-50%);
+  color:var(--muted);font-size:0.85rem;pointer-events:none}
+.search-input{width:100%;background:var(--card);border:1px solid var(--border2);
+  border-radius:14px;padding:11px 14px 11px 38px;font-family:'DM Sans',sans-serif;
+  font-size:0.88rem;color:var(--cream);outline:none;transition:border-color 0.2s;
+  -webkit-appearance:none}
+.search-input::placeholder{color:var(--muted)}
+.search-input:focus{border-color:rgba(200,146,58,0.38)}
+
+/* ── PILL CHIPS ── */
+.chips{display:flex;gap:7px;padding:0 16px 12px;overflow-x:auto;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;height:32px;padding:0 14px;border:1px solid var(--border2);
+  border-radius:999px;background:transparent;color:var(--muted);
+  font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;
+  white-space:nowrap;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.chip.active{background:var(--gold);border-color:var(--gold);color:#080808}
+
+/* ── RESULTS BAR ── */
+.results-bar{padding:14px 20px 6px;display:flex;align-items:center;
+  justify-content:space-between}
+.results-label{font-family:'Cormorant Garamond',serif;font-size:1.05rem;
+  font-style:italic;color:var(--muted)}
+.results-num{font-size:0.6rem;font-weight:600;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--gold)}
+
+/* ── SPOT CARDS ── */
+.spots-list{padding:4px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.spot-card{background:var(--card);border:1px solid var(--border2);
+  border-radius:16px;overflow:hidden;transition:border-color 0.25s}
+.spot-card.open{border-color:var(--border)}
+.spot-header{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.spot-num{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;
+  color:rgba(200,146,58,0.22);line-height:1;min-width:28px;padding-top:2px;
+  transition:color 0.25s}
+.spot-card.open .spot-num{color:var(--gold)}
+.spot-main{flex:1;min-width:0}
+.spot-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;
+  color:var(--cream);line-height:1.25;margin-bottom:7px}
+.spot-tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:0.56rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 7px;border-radius:5px;white-space:nowrap}
+.tag-tower{background:rgba(200,146,58,0.15);color:#E8B86D;border:1px solid rgba(200,146,58,0.25)}
+.tag-southbank{background:rgba(74,139,196,0.14);color:#7AB4D8;border:1px solid rgba(74,139,196,0.27)}
+.tag-stpauls{background:rgba(200,146,58,0.09);color:#D4A862;border:1px solid rgba(200,146,58,0.18)}
+.tag-city{background:rgba(90,154,106,0.14);color:#7EC48A;border:1px solid rgba(90,154,106,0.27)}
+.tag-westminster{background:rgba(138,116,200,0.14);color:#A898D8;border:1px solid rgba(138,116,200,0.27)}
+.tag-westend{background:rgba(200,80,80,0.13);color:#D87878;border:1px solid rgba(200,80,80,0.25)}
+.tag-westlondon{background:rgba(180,120,60,0.13);color:#C89868;border:1px solid rgba(180,120,60,0.25)}
+.tag-canary{background:rgba(50,150,180,0.13);color:#68C0D8;border:1px solid rgba(50,150,180,0.27)}
+.tag-east{background:rgba(100,160,120,0.13);color:#80B898;border:1px solid rgba(100,160,120,0.25)}
+.tag-parks{background:rgba(80,130,80,0.14);color:#80B880;border:1px solid rgba(80,130,80,0.27)}
+.tag-sunrise{background:rgba(212,129,58,0.13);color:#D4813A;border:1px solid rgba(212,129,58,0.27)}
+.tag-day{background:rgba(90,154,106,0.11);color:#5A9A6A;border:1px solid rgba(90,154,106,0.25)}
+.tag-blue{background:rgba(74,139,196,0.11);color:#4A8BC4;border:1px solid rgba(74,139,196,0.25)}
+.tag-night{background:rgba(138,116,200,0.11);color:#8A74C8;border:1px solid rgba(138,116,200,0.25)}
+.tag-any{background:rgba(106,97,86,0.15);color:#8a8172;border:1px solid rgba(106,97,86,0.27)}
+.tag-lens{background:rgba(255,255,255,0.04);color:#505050;border:1px solid rgba(255,255,255,0.07)}
+.spot-arrow{width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;color:var(--muted);
+  font-size:0.55rem;transition:all 0.25s;flex-shrink:0;margin-top:3px}
+.spot-card.open .spot-arrow{background:var(--gold);border-color:var(--gold);
+  color:#080808;transform:rotate(180deg)}
+
+/* ── SPOT BODY ── */
+.spot-body{display:none;padding:0 16px 16px 56px}
+.spot-card.open .spot-body{display:block}
+.spot-rule{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:13px}
+
+/* Meta grid — from mockup */
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:13px}
+.meta-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  border-radius:10px;padding:9px 11px}
+.meta-label{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.14em;
+  color:var(--muted);margin-bottom:3px}
+.meta-value{font-size:0.82rem;font-weight:500;color:var(--cream);line-height:1.3}
+
+.spot-desc{font-size:0.83rem;line-height:1.7;color:rgba(245,240,232,0.62);
+  font-weight:300;margin-bottom:12px}
+.spot-tip{background:rgba(200,146,58,0.06);border-left:2px solid var(--gold);
+  border-radius:0 6px 6px 0;padding:9px 12px;font-size:0.78rem;line-height:1.6;
+  color:rgba(245,240,232,0.5);font-style:italic;margin-bottom:12px}
+.spot-actions{display:flex;gap:8px;align-items:center}
+.map-btn{display:inline-flex;align-items:center;gap:5px;padding:9px 14px;
+  background:transparent;border:1px solid var(--border);border-radius:10px;
+  color:var(--gold-l);font-family:'DM Sans',sans-serif;font-size:0.68rem;
+  font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;
+  -webkit-tap-highlight-color:transparent}
+.save-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border2);
+  background:transparent;color:var(--muted2);font-size:1.1rem;line-height:1;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:all 0.2s}
+.save-btn.saved{background:rgba(200,146,58,0.12);border-color:var(--border);color:var(--gold)}
+
+/* ── WALK CARDS ── */
+.walks-list{padding:8px 14px 12px;display:flex;flex-direction:column;gap:10px}
+.walk-card{background:var(--card);border:1px solid var(--border2);
+  border-radius:16px;overflow:hidden;transition:border-color 0.25s}
+.walk-card.open{border-color:var(--border)}
+.walk-header{display:flex;align-items:flex-start;gap:12px;padding:16px 16px 14px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.walk-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;
+  color:rgba(200,146,58,0.2);line-height:1;min-width:28px;padding-top:2px;
+  transition:color 0.25s}
+.walk-card.open .walk-num{color:var(--gold)}
+.walk-info{flex:1}
+.walk-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;
+  color:var(--cream);margin-bottom:8px;line-height:1.2}
+.walk-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px}
+.walk-stats{font-size:0.68rem;color:var(--muted);letter-spacing:0.04em;margin-bottom:8px}
+.walk-pitch{font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-style:italic;
+  color:rgba(245,240,232,0.45);line-height:1.5}
+.walk-arrow{width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;color:var(--muted);
+  font-size:0.55rem;transition:all 0.25s;flex-shrink:0;margin-top:3px}
+.walk-card.open .walk-arrow{background:var(--gold);border-color:var(--gold);
+  color:#080808;transform:rotate(180deg)}
+.walk-body{display:none;padding:0 16px 16px}
+.walk-card.open .walk-body{display:block}
+.walk-rule{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin-bottom:14px}
+.walk-start-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.walk-cta{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;
+  background:rgba(200,146,58,0.1);border:1px solid rgba(200,146,58,0.22);
+  border-radius:10px;color:var(--gold-l);font-family:'DM Sans',sans-serif;
+  font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  text-decoration:none;-webkit-tap-highlight-color:transparent}
+.walk-stop-count{font-size:0.68rem;color:var(--muted);letter-spacing:0.06em}
+
+/* Timeline */
+.walk-timeline{position:relative;padding-left:34px}
+.walk-timeline::before{content:'';position:absolute;left:9px;top:14px;bottom:14px;
+  width:1px;background:linear-gradient(180deg,transparent,rgba(200,146,58,0.2) 8%,rgba(200,146,58,0.2) 92%,transparent)}
+.walk-stop-item{position:relative;margin-bottom:7px}
+.walk-stop-num{position:absolute;left:-34px;top:12px;width:20px;height:20px;
+  border-radius:50%;background:rgba(200,146,58,0.1);border:1px solid rgba(200,146,58,0.3);
+  display:flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:700;
+  color:var(--gold);z-index:1;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:all 0.2s}
+.walk-stop-item.open .walk-stop-num{background:var(--gold);border-color:var(--gold);color:#080808}
+.walk-stop-card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;overflow:hidden;transition:border-color 0.2s}
+.walk-stop-item.open .walk-stop-card{border-color:rgba(200,146,58,0.16)}
+.walk-stop-head{display:flex;align-items:center;justify-content:space-between;
+  padding:11px 13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.walk-stop-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;
+  color:var(--cream);flex:1;padding-right:8px}
+.walk-stop-arrow{font-size:0.5rem;color:var(--muted);transition:transform 0.2s;flex-shrink:0}
+.walk-stop-item.open .walk-stop-arrow{transform:rotate(180deg);color:var(--gold)}
+.walk-stop-body{display:none;padding:0 13px 13px}
+.walk-stop-item.open .walk-stop-body{display:block}
+.walk-stop-rule{height:1px;background:rgba(255,255,255,0.04);margin-bottom:10px}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;left:12px;right:12px;
+  bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+  z-index:200;padding:8px 8px;border-radius:22px;
+  background:rgba(10,10,10,0.88);border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:9px 4px;border-radius:16px;color:var(--muted);cursor:pointer;
+  font-size:0.66rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  transition:all 0.2s;-webkit-tap-highlight-color:transparent;border:none;
+  background:transparent;font-family:'DM Sans',sans-serif}
+.nav-item.active{background:rgba(200,146,58,0.12);color:var(--gold-l)}
+.nav-icon{font-size:1rem;line-height:1}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:60px 20px;display:none}
+.empty.show{display:block}
+.empty-icon{font-size:2.2rem;margin-bottom:14px;opacity:0.3}
+.empty-text{font-family:'Cormorant Garamond',serif;font-size:1.2rem;
+  font-style:italic;color:var(--muted)}
+
+/* ── FOOTER ── */
+.app-footer{text-align:center;padding:20px 20px 12px;font-size:0.58rem;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--muted2);
+  border-top:1px solid var(--border2)}
+.app-footer a{color:var(--gold);text-decoration:none}
+
+/* ── VIEWS ── */
+#view-explore{display:block}
+#view-walks{display:none}
+
+@media(max-width:380px){
+  .cover-title{font-size:2.4rem}
+  .spot-name{font-size:1.05rem}
+  .walk-name{font-size:1.1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER (explore view only) -->
+<div class="cover" id="coverId">
+  <div class="cover-bg"></div>
+  <div class="cover-inner">
+    <div class="cover-eye">Claudio SAROLDI</div>
+    <div class="cover-title">London<br><em>Photo Spots</em></div>
+    <div class="cover-meta">
+      <div class="cover-rule"></div>
+      <div class="cover-byline">Your Cheat Code</div>
+      <div class="cover-count" id="totalCount">126 spots</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTROLS (explore view only) -->
+<div class="controls" id="controls">
+  <div class="search-wrap">
+    <span class="s-icon">&#9906;</span>
+    <input class="search-input" type="search" id="searchInput"
+      placeholder="Search locations, lens, area..." autocomplete="off" spellcheck="false">
+  </div>
+  <div class="chips" id="chipsRow">
+    <button class="chip active" data-f="all">All</button>
+    <button class="chip" data-f="saved">&#9733; Saved</button>
+    <button class="chip" data-f="area:tower">Tower Bridge</button>
+    <button class="chip" data-f="area:southbank">Southbank</button>
+    <button class="chip" data-f="area:stpauls">St Paul's</button>
+    <button class="chip" data-f="area:city">The City</button>
+    <button class="chip" data-f="area:westminster">Westminster</button>
+    <button class="chip" data-f="area:westend">West End</button>
+    <button class="chip" data-f="area:westlondon">West London</button>
+    <button class="chip" data-f="area:canary">Canary Wharf</button>
+    <button class="chip" data-f="area:east">East London</button>
+    <button class="chip" data-f="area:parks">Parks</button>
+    <button class="chip" data-f="time:sunrise">Sunrise</button>
+    <button class="chip" data-f="time:blue">Blue Hour</button>
+    <button class="chip" data-f="time:night">Night</button>
+  </div>
+</div>
+
+<!-- EXPLORE VIEW -->
+<div id="view-explore">
+  <div class="results-bar">
+    <div class="results-label" id="resultsLabel">All locations</div>
+    <div class="results-num" id="resultsNum"></div>
+  </div>
+  <div class="spots-list" id="spotsList"></div>
+  <div class="empty" id="emptyState">
+    <div class="empty-icon">&#128247;</div>
+    <div class="empty-text">No spots found</div>
+  </div>
+  <footer class="app-footer">
+    London Photo Spots &nbsp;&middot;&nbsp; by Claudio SAROLDI &nbsp;&middot;&nbsp;
+    <a href="https://maps.app.goo.gl/EnzjZzcK1sBVX3TA6" target="_blank">Interactive Map</a>
+  </footer>
+</div>
+
+<!-- WALKS VIEW -->
+<div id="view-walks">
+  <div class="view-head">
+    <div class="view-head-eye">Curated Routes</div>
+    <div class="view-head-title">Photo <em>Walks</em></div>
+    <div class="view-head-sub">11 GPS-sequenced routes across London. Each one built to maximise your shooting time.</div>
+  </div>
+  <div class="walks-list" id="walksList"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="nav-explore" onclick="showView('explore')">
+    <span class="nav-icon">&#9678;</span>
+    <span>Explore</span>
+  </button>
+  <button class="nav-item" id="nav-walks" onclick="showView('walks')">
+    <span class="nav-icon">&#9737;</span>
+    <span>Walks</span>
+  </button>
+  <button class="nav-item" id="nav-saved" onclick="showView('saved')">
+    <span class="nav-icon">&#9733;</span>
+    <span>Saved</span>
+  </button>
+</nav>
+
+<script>
+var AREA = {
+  tower:'Tower Bridge', southbank:'Southbank', stpauls:"St Paul's",
+  city:'The City', westminster:'Westminster', westend:'West End',
+  westlondon:'West London', canary:'Canary Wharf', east:'East London', parks:'Parks'
+};
+var TIME = {sunrise:'Sunrise',day:'Daytime',blue:'Blue Hour',night:'Night',any:'Anytime'};
+
+var SPOTS = [
+  {id:1,name:'Tower Bridge',area:'tower',time:'night',lens:'16-35mm',
+   desc:'One of London\'s most iconic spots. For this shot a rainy night works best — use a solid tripod and a shutter speed of around 0.4 or 1/3 second to get a nice bus blur. Shot was taken in the middle of the bridge looking towards the South.',
+   tip:'Visit after 10-11pm for the quietest night shots, or arrive for sunrise.',
+   url:'https://maps.app.goo.gl/8yB5HoKi83txo81Y6'},
+  {id:2,name:'Shard View from Tower Bridge',area:'tower',time:'blue',lens:'16-35mm or 24-70mm',
+   desc:'Shot from the South side of Tower Bridge looking straight towards More London. A great vantage point to capture iconic buildings or shoot timelapses. My personal favourite time to shoot here is at blue hour as the buildings are just starting to light up.',
+   url:'https://maps.app.goo.gl/gkyp6C6P4gLeztJh9'},
+  {id:3,name:'Tower Bridge Staircase',area:'tower',time:'sunrise',lens:'12-24mm or 16-35mm',
+   desc:'A fantastic angle on Tower Bridge. You will find this staircase on the North side of the bridge. Make your way down it and look back up for a stunning composition. Recommend shooting on a 16-35mm lens for the biggest level of flexibility.',
+   url:'https://maps.app.goo.gl/7JFLXkojx6Ve6AhS9'},
+  {id:4,name:'Shad Thames',area:'tower',time:'sunrise',lens:'16-35mm',
+   desc:'Shooting here is all about timing. Waiting for the morning sun to fill the street with soft light and balancing this with an isolated subject will leave you with a stunning result. Arrive for early morning just after the sun has risen to ensure the streets are quiet and lighting is optimal.',
+   url:'https://maps.app.goo.gl/tcGU9BNtVwRfqU9V9'},
+  {id:5,name:'Low Tide Tower Bridge',area:'tower',time:'any',lens:'12-24mm',
+   desc:'A location where no shot will come out the same. Wait for a low tide at this spot and you can walk down to capture epic reflection photos by getting low and shooting in the puddles. Great for daytime and also blue hour, but footwear choice is essential as it is very muddy.',
+   tip:'Check tide timings online before you visit. The tide comes in much faster than you might think.',
+   url:'https://maps.app.goo.gl/fLEspK3pJGzb4zuM8'},
+  {id:6,name:'The Scoop',area:'tower',time:'sunrise',lens:'16-35mm',
+   desc:'Great first thing in the morning where it is just you and the occasional runner. A wide lens here captures the whole scoop which leads the eye nicely towards Tower Bridge. Avoid using a tripod in this area as there are a lot of strict security guards around.',
+   url:'https://maps.app.goo.gl/jGA1auh56uwN6q3K8'},
+  {id:7,name:'The Scoop - Shard View',area:'tower',time:'night',lens:'16-35mm',
+   desc:'A great spot to capture on a rainy night. The floor is super reflective and the lights from the buildings bounce off it really well. This can be a very busy location and during Christmas some of this area may be blocked off by markets.',
+   url:'https://maps.app.goo.gl/SHQWwBP3tBq4otyk6'},
+  {id:8,name:'More London - Tower Bridge',area:'tower',time:'night',lens:'70-200mm',
+   desc:'This spot offers a great view of Tower Bridge, shooting the right-hand tower on a zoom lens. Very busy during the day with lots of commuters. It is possible to do a long exposure with an ND filter in the day to blur the crowds.',
+   tip:'Best results with a 70-200mm lens.',
+   url:'https://maps.app.goo.gl/ah2qbbGZx6NvugEB6'},
+  {id:9,name:'More London - Look Up Shot',area:'tower',time:'day',lens:'12-24mm',
+   desc:'The beauty of this location is that it does not matter how busy it is, you will still be able to capture your shot no matter what. The one thing you want to take into account is the weather. You want a nice sunny day where the clouds are spaced out.',
+   url:'https://maps.app.goo.gl/hBQzDnctgxkzsojQ6'},
+  {id:10,name:'Tower of London',area:'tower',time:'sunrise',lens:'24-70mm',
+   desc:'This area can get very busy in the day, which is why visiting during the early hours of the morning is best. You will be able to capture the sun rising behind Tower Bridge too. Opening hours vary but usually you can get in from 7AM.',
+   url:'https://maps.app.goo.gl/GBLNEfXZbgha9JG3A'},
+  {id:11,name:'Thames Path North',area:'southbank',time:'blue',lens:'24-70mm or 70-200mm',
+   desc:'This location can be an epic spot for a good sunset view of the city. Sunsets are not always the most spectacular in London, but when they are this is the place to be.',
+   tip:'The gates close for this spot at 10pm, so factor that into your plans.',
+   url:'https://maps.app.goo.gl/H4DDu8fcf8bmxoEN7'},
+  {id:12,name:'Shard Reflection',area:'southbank',time:'day',lens:'12-24mm',
+   desc:'Whenever there is a reflection involved, it often results in a great photo opportunity. This is a great spot for getting creative, whether you are shooting portraits or doing some street photography. Visiting here during the day is best for the reflection.',
+   url:'https://maps.app.goo.gl/qvyXvisGMPXYxjJH6'},
+  {id:13,name:'Bermondsey Station',area:'southbank',time:'day',lens:'16-35mm',
+   desc:'A great spot for symmetry in the city, located in Bermondsey tube station down between the two Jubilee platforms. Good for getting creative and definitely good for capturing portraits. I shot a handheld long exposure to get movement in the frame as the tube went past.',
+   url:'https://maps.app.goo.gl/c2pRDWKvqN8bsM4C8'},
+  {id:14,name:'London Bridge Staircase',area:'southbank',time:'day',lens:'12-24mm',
+   desc:'Head to the bottom of this staircase which leads off from London Bridge, and you will be able to capture a great frame looking back at the staircase and of the Shard. A wide-angle lens is great here, and with a tripod and an ND filter you can capture some really nice long exposures.',
+   url:'https://maps.app.goo.gl/pi2z4YQnfGbp7hud9'},
+  {id:15,name:'Staircase Shadow',area:'southbank',time:'sunrise',lens:'24-70mm or 50mm',
+   desc:'This location is great for utilising shadows and capturing some unique moments. I shot this at around 10:30AM in February which ensured enough light to be shining on to the wall here. It requires a little bit of patience for the right subject to walk into frame, but totally worth it.',
+   url:'https://maps.app.goo.gl/Ky2LGpsHimSwT2Rc6'},
+  {id:16,name:'Public Views Terrace',area:'southbank',time:'blue',lens:'12-24mm',
+   desc:'One where you can get really creative. I set up my tripod here and captured several different moments of a subject and masked them all together to form one image. You definitely want a super wide angle lens if you are trying to get everything in frame.',
+   url:'https://maps.app.goo.gl/2VEhBM91Cbe3QLNLA'},
+  {id:17,name:'London Bridge',area:'southbank',time:'sunrise',lens:'24-70mm or 70-200mm',
+   desc:'Head here for sunrise if you are wanting to capture an image of Tower Bridge. If you are lucky you will catch a beautiful sunrise and if there are no boats on the Thames you might get a crystal clear reflection. Shooting in the summer months increases your chances of this.',
+   url:'https://maps.app.goo.gl/mhosURBo1GS55J1D8'},
+  {id:18,name:'London Bridge Tube Tunnel',area:'southbank',time:'any',lens:'16-35mm or 24-70mm',
+   desc:'One of London\'s most epic symmetry spots nestled right in the centre of the city. You will find this tunnel within London Bridge Tube Station, located on route to the Jubilee line. Best on a wide lens.',
+   tip:'Avoid rush hour for the best results.',
+   url:'https://maps.app.goo.gl/TTfceHGZeZg6eebi9'},
+  {id:19,name:'Shard Quarter',area:'southbank',time:'night',lens:'12-24mm',
+   desc:'I have always found this location pretty tough to shoot. It requires a super wide lens and timing it with a bus to create a long exposure can be pretty hard as the buses do not come too frequently. However, when done correctly it makes for a great urban street photography location.',
+   url:'https://maps.app.goo.gl/tHHydE7gsQvjm11k9'},
+  {id:20,name:'Southwark Street',area:'southbank',time:'night',lens:'16-35mm',
+   desc:'A classic night street photography spot. Combining a long exposure with a reflection makes for a striking image. I usually bring a water bottle here to create my own reflection on the floor. The best buses for this shot are the ones which do not stop at the visible bus stop in frame.',
+   url:'https://maps.app.goo.gl/TyaG2rqtCwXfLu9QA'},
+  {id:21,name:'Southwark Tube Staircase',area:'southbank',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'An incredible symmetrical structure located within Southwark tube station as you get off the Jubilee line. Best with a wide angle lens to capture the scale whilst shooting isolated subjects walking up the stairs. Nice shots in between tubes when it is not so busy.',
+   url:'https://maps.app.goo.gl/2ZNKLSmDZsdtjDQ59'},
+  {id:22,name:'Waterloo Tube Walkway',area:'southbank',time:'any',lens:'12-24mm',
+   desc:'A great example of symmetry and leading lines located within the underground. It can get quite busy here as it is a main walkway between the Jubilee line and the Northern line. This spot would be fantastic for shooting portraits at.',
+   tip:'Best during off-peak hours.',
+   url:'https://maps.app.goo.gl/U5pqsqZyZbVFwTVZ9'},
+  {id:23,name:'Bankside Low Tide',area:'southbank',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'Great for during the day but also at night time too. Check the tide timings for this spot. You can capture some amazing long exposures if you bring a tripod, or alternatively get down low and capture an interesting reflection shot using the puddles.',
+   url:'https://maps.app.goo.gl/mCUqybQyS4C7UHsB8'},
+  {id:24,name:'Tate Modern Staircase',area:'southbank',time:'day',lens:'12-24mm or 16-35mm',
+   desc:'Tucked away within the Tate Modern museum, located in the Blavatnik Building. Shot was taken from the ground floor, but there is also another angle when you go to the very top and look down. Visiting here at an off-peak hour is recommended to shoot isolated subjects.',
+   tip:'Check opening hours before visiting.',
+   url:'https://maps.app.goo.gl/hgxe7DmmpPRR9rcv7'},
+  {id:25,name:'Southbank Yellow Staircase',area:'southbank',time:'any',lens:'12-24mm or 16-35mm',
+   desc:'There are actually two of these staircases in Southbank but this one is definitely my favourite. You can shoot it from so many different angles and it is a fantastic spot for portraits too. I took this particular shot looking down from Waterloo Bridge.',
+   url:'https://maps.app.goo.gl/AgXVxiEVZNhY4T8f6'},
+  {id:26,name:'Observation Point',area:'southbank',time:'night',lens:'24-70mm or 70-200mm',
+   desc:'This spot provides a stunning backdrop of the skyline, ideal for portraits and other similar situations. One thing to take into account is that sometimes they rent out the spot to businesses who will block the view with their stand.',
+   url:'https://maps.app.goo.gl/s9HgJjJyKqW3kxPg7'},
+  {id:27,name:'Watling Street',area:'stpauls',time:'day',lens:'24-70mm or 70-200mm',
+   desc:'A great little area for street photography. It gets quite busy during the lunch time hours in the week as lots of office workers gather. Best to shoot between 10-11:30am and 13:30-16:00. I like to get down low next to the right side curb, using the leading lines.',
+   url:'https://maps.app.goo.gl/vcjRbFAi3vxmERc27'},
+  {id:28,name:'One New Change',area:'stpauls',time:'day',lens:'16-35mm',
+   desc:'A classic photography location within the city. Get down low using the leading line of the drain and you also get some cool reflections from the glass buildings. It requires a little patience to get the shot without other members of the public in frame.',
+   url:'https://maps.app.goo.gl/gNEjhGAHzqVTvZ4P6'},
+  {id:29,name:'Reflection Garden',area:'stpauls',time:'day',lens:'16-35mm',
+   desc:'A fairly new addition to the London photography spots. It is often pretty quiet here with very low footfall. You are not able to stand on the water feature or go into the water itself as there is a security guard working in the adjacent building.',
+   url:'https://maps.app.goo.gl/sUcTEeod26fpAgmx8'},
+  {id:30,name:'Paternoster Square',area:'stpauls',time:'day',lens:'24-70mm or 50mm',
+   desc:'A stunning location during the daytime because the sunlight beams perfectly through this inviting structure. Shot was taken on a quiet Sunday morning with very few pedestrians, so I was able to isolate some individual subjects. Right next to St Paul\'s Cathedral.',
+   url:'https://maps.app.goo.gl/nQdcy5yfUtt3FWjS6'},
+  {id:31,name:'Sermon Lane Reflection',area:'stpauls',time:'day',lens:'16-35mm',
+   desc:'A shot that I do not see too often shared online. There is a really lovely clean reflection on the wall next to the steps where you can capture a nice shot of the cathedral by utilising the reflective surface of the wall.',
+   url:'https://maps.app.goo.gl/FNfe9VmYNv7ZhCNa6'},
+  {id:32,name:"St Paul's Cathedral Phone Box",area:'stpauls',time:'night',lens:'16-35mm',
+   desc:'You cannot visit London with your camera and not grab a shot here. One of the most frequently shot locations in the city for first time visitors. This shot is best captured on a rainy night and during the winter months where there are no trees blocking the composition.',
+   url:'https://maps.app.goo.gl/19HA7t4qj96bFHue7'},
+  {id:33,name:'Millennium Bridge Reflection',area:'stpauls',time:'night',lens:'16-35mm or 24-70mm',
+   desc:'If you want to get a bit more creative when shooting on the bridge, you can prop your camera up against the glass panel and get a really clean reflection shot of the bridge and St Paul\'s. Makes for an even better shot with an isolated subject walking through the frame.',
+   url:'https://maps.app.goo.gl/6R1c2VPQejVCiASz9'},
+  {id:34,name:'Millennium Bridge',area:'stpauls',time:'sunrise',lens:'24-70mm or 70-200mm',
+   desc:'Another super iconic spot. During the day this bridge sees quite heavy footfall so I would recommend early morning where you can have it pretty much empty. I love to shoot from a low angle here to capture the texture of the bridge surface, and using a zoom lens to create compression with the cathedral.',
+   url:'https://maps.app.goo.gl/LazpeK2Gepobu8RW7'},
+  {id:35,name:'Millennium Bridge Staircase',area:'stpauls',time:'sunrise',lens:'24-70mm',
+   desc:'This location sits on the north-side of the river, just off the side to the main bridge itself. You can get creative here whether it is portraits or something else. There are handrails to create leading lines and having the backdrop of St Paul\'s helps to create some epic compositions.',
+   url:'https://maps.app.goo.gl/mBsV2WeChkiJAGbj7'},
+  {id:36,name:'Roof Terrace One New Change',area:'stpauls',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'A classic London rooftop viewpoint in the city with an amazing view looking over St Paul\'s Cathedral. Make your way to the Google map location and take the elevator up to the rooftop floor where you can enjoy this view.',
+   tip:'Make sure to check opening times.',
+   url:'https://maps.app.goo.gl/jHAsc55aCAHwYVd6A'},
+  {id:37,name:"St Paul's Cathedral Rear",area:'stpauls',time:'night',lens:'12-24mm',
+   desc:'Just round the corner from the rooftop terrace, you can shoot an alternative angle of the cathedral. This shot nicely captures an iconic red London phone box, a double decker bus, and the cathedral itself. If shooting during the day, the best lighting is in the afternoon.',
+   url:'https://maps.app.goo.gl/iKcLM9EbNqYdn6rx7'},
+  {id:38,name:'Queens Head Passage',area:'stpauls',time:'day',lens:'24-70mm or 50mm',
+   desc:'Walking down this street it is almost impossible not to take a snap of this beautiful composition. The lighting can vary at different times of the day but there is no bad time to shoot at this spot. I took this shot on my 50mm prime lens.',
+   url:'https://maps.app.goo.gl/SvPQ87JTwbd3W4Ro7'},
+  {id:39,name:'Thames Exchange Tunnel',area:'stpauls',time:'day',lens:'16-35mm',
+   desc:'A really cool tunnel great for capturing symmetry shots and for getting creative. Located along the Thames path on the North side, right next to a waste management centre. It does have a pretty bad smell in the area due to this however.',
+   url:'https://maps.app.goo.gl/DR6dZdgtUL7pNTQr9'},
+  {id:40,name:'Fleet Street',area:'stpauls',time:'day',lens:'24-70mm or 70-200mm',
+   desc:'Here you will be able to capture an iconic looking shot of London, looking back at St Paul\'s and adding a red bus will make certain of this. Arrive in the early morning before it gets busy to capture a clean shot. Look out for leading lines.',
+   url:'https://maps.app.goo.gl/kUr1rVaYETVW4VG69'},
+  {id:41,name:'America Street',area:'city',time:'any',lens:'24-70mm',
+   desc:'A great location for shooting cars and anything automotive related. The street is usually very quiet and you can park with no problems whilst taking photos. The hero shot is to set your tripod up and wait for a bus to go past to capture a long exposure with the Shard behind.',
+   url:'https://maps.app.goo.gl/tEobBAXiqzzJHdDW9'},
+  {id:42,name:'St Mary at Hill',area:'city',time:'day',lens:'24-70mm',
+   desc:'A great street for taking photos of cars, both during the day and at night time too. It is a pretty quiet street so you do not have to worry about lots of cars coming down it, but the lighting will always be better on a nice sunny morning.',
+   url:'https://maps.app.goo.gl/pA66tE7oKFzaGHFm6'},
+  {id:43,name:'East Church Garden',area:'city',time:'day',lens:'12-24mm or 35mm',
+   desc:'This spot is nestled right within the city and is actually the grounds of St Dunstan in the East Church Garden. Visiting on an overcast day is recommended as the lighting can be quite strong in sunlight with some harsh shadows. The trees can be quite overgrown in summer.',
+   url:'https://maps.app.goo.gl/iJteuQUtkFq7JBHC6'},
+  {id:44,name:'Monument Tube Station',area:'city',time:'night',lens:'12-24mm',
+   desc:'Whilst this location can be pretty hectic as there is a lot going on, it is a great spot for taking urban street photos. I like to position my camera against the railings and leave enough room to capture a bus blur going past.',
+   url:'https://maps.app.goo.gl/81utEFJmJeJNR5ey8'},
+  {id:45,name:'Garden at 120',area:'city',time:'day',lens:'16-35mm to 70-200mm',
+   desc:'One of my favourite locations to shoot in the city and somewhere I always recommend visiting if you are new to London. There are some epic photo opportunities up there and it is an amazing location for shooting sunset.',
+   url:'https://maps.app.goo.gl/XN7saKaXev8JcQEJA'},
+  {id:46,name:'The Gherkin',area:'city',time:'day',lens:'16-35mm',
+   desc:'A fun location for doing some street photography and definitely a place where you can get plenty of creative shots. Visiting here on an overcast day is recommended to avoid harsh shadows. It is also better to shoot with a wide lens to showcase the scale of the buildings.',
+   url:'https://maps.app.goo.gl/jhG3orKYBB1yDfNy9'},
+  {id:47,name:'Mitre Street',area:'city',time:'night',lens:'12-24mm',
+   desc:'Another great composition nestled within London City. There are some lovely double yellow lines which can be great leading lines looking towards the Gherkin, captured by getting down low. It is also a cool spot to shoot when it has been raining as you can capture a lovely reflection.',
+   url:'https://maps.app.goo.gl/tqe3WshancG5bxic6'},
+  {id:48,name:'St Helens Place',area:'city',time:'day',lens:'12-24mm',
+   desc:'Only available to access during the week between 7am-6pm. It is down a private street so you are only really able to spend a minute or two shooting before the security will ask you to kindly move on. I took this shot by getting down low and using the cobbled floor as foreground.',
+   url:'https://maps.app.goo.gl/frKzaTUSRubAbR7U9'},
+  {id:49,name:'Street Lamp Look Up',area:'city',time:'blue',lens:'12-24mm',
+   desc:'One of my favourite street shots that I have taken in London. Take with you the widest lens you have available. The best shot I have taken here was on a 10mm prime lens, just before blue hour so there were a few lights on in buildings but still enough detail visible.',
+   url:'https://maps.app.goo.gl/JKe3KVarX3erpYdH7'},
+  {id:50,name:'Sky Garden',area:'city',time:'day',lens:'24-70mm and 70-200mm',
+   desc:'Entry requires a little bit of pre-planning, but the tickets are free. Ensure you have booked a few weeks in advance as they do get booked up pretty quick. Offers a variety of shooting possibilities: portraits, internal architecture, or photos of the skyline.',
+   tip:'Book your free ticket well in advance. Check opening hours.',
+   url:'https://maps.app.goo.gl/4ocGZCWNJnF8z9Ru5'},
+  {id:51,name:'5 Broadgate',area:'city',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'An interesting location for doing some street photography right in the centre of where a lot of high rise buildings are. On a sunny weekend morning you will be able to capture some interesting subjects outside this building.',
+   url:'https://maps.app.goo.gl/ADKzXbKUDEumX8zd9'},
+  {id:52,name:"Lloyd's of London - Look Up",area:'city',time:'day',lens:'12-24mm',
+   desc:'A fantastic area to shoot at in the city. The specific shot here is achieved by doing a vertical panorama image, whereby you take around 6-8 photos in landscape and then combine them in post using Lightroom. Great for shooting at in the daytime as well as at night.',
+   url:'https://maps.app.goo.gl/ZFYRj7q3MyHox27x8'},
+  {id:53,name:'22 Bishopsgate',area:'city',time:'day',lens:'24-70mm and 70-200mm',
+   desc:'Similar to the Sky Garden, this is a free to enter viewpoint in the city but it does require you to make a booking a few weeks or even months ahead. Bear in mind you will be shooting through glass so there can be reflections. Bring a spare jumper to stick over your camera to avoid glare.',
+   tip:'Book in advance — sometimes months ahead. Check opening hours.',
+   url:'https://maps.app.goo.gl/JEber2v2Xmq8BKtd7'},
+  {id:54,name:'Poultry Look Up',area:'city',time:'day',lens:'12-24mm',
+   desc:'Another one of London\'s epic look up spots. The buildings perfectly frame an open sky and time this right with a plane or a bird flying overhead and you have got yourself an awesome photo. This location does not really get too busy.',
+   url:'https://maps.app.goo.gl/EA3andbEBMtejTXq6'},
+  {id:55,name:'The Barbican',area:'city',time:'sunrise',lens:'24-70mm, 50mm or 85mm',
+   desc:'A super unique and very special place to shoot in the city. Great on an early morning where it is not too busy and the lighting is nice and soft. Excellent for street photography and portraits due to it being such a large area with lots of different parts to explore.',
+   url:'https://maps.app.goo.gl/ZoRYNAzvHjB9VHod9'},
+  {id:56,name:'Leadenhall Market',area:'city',time:'night',lens:'12-24mm',
+   desc:'A super iconic spot in London and always worth a visit. Take a wide angle lens and note that this location can get very busy during the week. Nice and empty in the mornings and during the late night.',
+   url:'https://maps.app.goo.gl/QmKrRNnpXRQCc5xB8'},
+  {id:57,name:"Coq d'Argent Viewpoint",area:'city',time:'day',lens:'16-35mm to 70-200mm',
+   desc:'One of London\'s viewpoints nestled in the city that is not too overly photographed. This venue is mainly a restaurant but they have a viewing deck where you are able to head up and visit. Best to grab a drink first as a thank you. Take one of the two lifts up to the top floor.',
+   url:'https://maps.app.goo.gl/4X3H5uVUcVeNGjtL9'},
+  {id:58,name:'Bank Station Exit',area:'city',time:'day',lens:'35mm, 50mm or 24-70mm',
+   desc:'A great location for catching some shadow play in your street photography. At certain times of the day (generally the morning), the sun shining into the station stairwell will cause shadows to be cast on to the wall from people walking past. Find this exact spot at the Princess Street exit of Bank tube.',
+   url:'https://maps.app.goo.gl/dNApEUJCDfLpL8Tm7'},
+  {id:59,name:'Victoria Embankment',area:'westminster',time:'sunrise',lens:'16-35mm or 24-70mm',
+   desc:'One of my favourite places for capturing rollers in the city for cars. You will have to be here at sunrise as otherwise you will struggle to deal with the busy traffic. If you have nice weather then you will have the sun rising behind your car which will look great.',
+   url:'https://maps.app.goo.gl/uKDLKrQhiVHw6suY7'},
+  {id:60,name:'Royal Courts of Justice',area:'westminster',time:'day',lens:'12-24mm or 16-35mm',
+   desc:'This spot is usually pretty empty which makes it nice and easy to shoot. I would say take a super wide angle lens here as it is pretty hard to fit the entire composition into the frame. My shot here was taken at about 16mm.',
+   url:'https://maps.app.goo.gl/G2tbniNbf5kHTr9G9'},
+  {id:61,name:'Big Ben Arch',area:'westminster',time:'night',lens:'16-35mm',
+   desc:'A classic and iconic spot in the city that attracts a lot of visitors. Visiting here at sunrise or night time is best. During the day it is far too busy as it is part of the Thames path and there are lots of pedestrians walking through.',
+   url:'https://maps.app.goo.gl/YSWoNfsvjoDxmhPVA'},
+  {id:62,name:'St Thomas Fountain',area:'westminster',time:'blue',lens:'24-70mm',
+   desc:'A cool spot for taking photos at any time of the day, but a solid spot to visit if you are wanting to catch a sunset. There is a fountain here which makes for a great reflection shot of Big Ben. Try to get your camera as close to the water as possible if you want a super clear reflection.',
+   url:'https://maps.app.goo.gl/JQJFt7yQNJxzadNx5'},
+  {id:63,name:'Westminster Bridge',area:'westminster',time:'sunrise',lens:'24-70mm',
+   desc:'It cannot get much more iconic than a red London bus and Big Ben. A great location for capturing that, and it makes for an even better photo when using the leading lines on the floor to elevate your composition. Visiting here during the early morning is essential as it can get incredibly busy during the day.',
+   tip:'Be careful of the road and busy cycle lane.',
+   url:'https://maps.app.goo.gl/kczxscBuntkaZQuz7'},
+  {id:64,name:'Westminster Leading Lines',area:'westminster',time:'sunrise',lens:'16-35mm or 24-70mm',
+   desc:'A really cool composition on Westminster Bridge. You will find this spot located on the side of the road where traffic is moving north. Look out for small markings on the road where you can capture these leading lines. When shooting here you will have to be very careful of the busy road and cycle lane.',
+   url:'https://maps.app.goo.gl/jZC1DTovBya2cJgJ7'},
+  {id:65,name:'London Eye Phone Box',area:'westminster',time:'sunrise',lens:'24-70mm',
+   desc:'Whilst you are in the Westminster area definitely recommend taking a visit to this spot. You can capture a lovely frame of the two red phone boxes with the London Eye in the background. Best to shoot here in the morning for the best light, but also in the late afternoon.',
+   url:'https://maps.app.goo.gl/KS81Naf2CuXzJ86K8'},
+  {id:66,name:'London Eye Railing',area:'westminster',time:'night',lens:'16-35mm',
+   desc:'A lovely creative frame. Halfway down the staircase you can line your camera up with the handrail and frame up a cool composition with the London Eye in the background. At night it can be cool to take two images, one of the eye in focus, and then the other with the railing in focus.',
+   url:'https://maps.app.goo.gl/exbLQLDAuUk8hhbk9'},
+  {id:67,name:'Westminster Tube Entrance',area:'westminster',time:'night',lens:'16-35mm or 24-70mm',
+   desc:'A nice frame for any time of the day, but better at night as it is a lot more quiet. You can create a nice frame where you have the staircase of Westminster tube and Big Ben in the background. Waiting for a bus to do a long exposure can be a great addition to the shot.',
+   url:'https://maps.app.goo.gl/PsR1uF866tHKCBNq8'},
+  {id:68,name:'Waterloo Bridge',area:'westminster',time:'blue',lens:'100-400mm',
+   desc:'One of my favourite locations to shoot St Paul\'s Cathedral from as you are able to get an amazing compressed view by using a telephoto lens. This was shot on a 100-400mm zoom lens from the Victoria Embankment area. I got my subject to stand on the bridge too to capture a more unique frame.',
+   tip:'If shooting at night a tripod is essential.',
+   url:'https://maps.app.goo.gl/sp5g9ryqM9VzjfWQ9'},
+  {id:69,name:'Embankment Tube Station',area:'westminster',time:'any',lens:'16-35mm or 24-70mm',
+   desc:'Located down within Embankment tube station by the Northern Line you will find this incredible tunnel which has a really nice vintage look to it. It does not get too busy down here which is great and would make for a cool portrait location.',
+   url:'https://maps.app.goo.gl/NFcLPuvRgeHf6YwG9'},
+  {id:70,name:'The Mall',area:'westminster',time:'sunrise',lens:'70-200mm or 100-400mm',
+   desc:'This location is great to shoot at if you have a long zoom lens. I took this around 3/4 of the way down the Mall towards the Palace and shot it from a lower angle. Shooting here in autumn will look nice with all of the leaves as foreground.',
+   url:'https://maps.app.goo.gl/WQkbbS2C2ZPqdiKYA'},
+  {id:71,name:'Horse Guards Road',area:'westminster',time:'sunrise',lens:'24-70mm or 70-200mm',
+   desc:'You want to get here fairly early in the morning to avoid crowds and for the best lighting. I would recommend using a 70-200mm lens for some really nice compression of the London Eye in the background. One thing to note is that elements such as police cars or building work can sometimes block this view.',
+   url:'https://maps.app.goo.gl/deJMYS3dRJXKVurt5'},
+  {id:72,name:"St James's Park",area:'westminster',time:'sunrise',lens:'70-200mm',
+   desc:'A really great location for an early morning walk with a zoom lens. In summer you can capture some amazing sunrises from this spot as it rises from behind the London Eye. Shot was taken from the Blue Bridge which overlooks the lake.',
+   url:'https://maps.app.goo.gl/Y1vRbR81QqJnzE4M7'},
+  {id:73,name:'The Standard Hotel',area:'westend',time:'blue',lens:'24-70mm or 70-200mm',
+   desc:'A super cool minimal frame located in the Kings Cross area. It is actually part of the Standard Hotel and is an elevator. When the lift is moving you can capture incredible images of it at various stages as it moves up the building exterior. Best position to shoot from would be on the other side of the road.',
+   url:'https://maps.app.goo.gl/rd5dLh6t4UUbNdSY8'},
+  {id:74,name:'Renaissance Interior',area:'westend',time:'day',lens:'16-35mm or 35mm',
+   desc:'A super beautiful location within the stunning Renaissance Hotel in St Pancras. Enter via the main entrance and this area will be on your left where it will open up and you should find the staircase. Plenty of cool and unique angles to shoot from here.',
+   tip:'If shooting for professional purposes you will need to get permission.',
+   url:'https://maps.app.goo.gl/KGUaTfYUMZpHy31EA'},
+  {id:75,name:'Kings Cross Concourse West',area:'westend',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'This location can get very busy and it would be very rare to see this part of the station empty. If you manage to find a time when this might be the case then it would be a great time to shoot here. Alternatively if you have a tripod you can capture cool long exposures using an ND filter to blur everyone in frame.',
+   url:'https://maps.app.goo.gl/ggrp5basTSJiSYA89'},
+  {id:76,name:'Kings Cross Tunnel',area:'westend',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'You will find this cool lit up tunnel when crossing from Kings Cross station to St Pancras after coming from the tube. It is quite an interesting tunnel with cool lighting where you can capture some unique street shots by waiting for isolated subjects to walk into frame.',
+   url:'https://maps.app.goo.gl/G8g8cTandNFBAej79'},
+  {id:77,name:'British Museum',area:'westend',time:'day',lens:'16-35mm',
+   desc:'A stunning location, but timing is key. It is free to visit. Just reserve your ticket online well ahead of when you plan to go. It can get very busy so grab a ticket for as soon as the museum opens and make your way up to the 1st floor with your wide angle lens.',
+   tip:'Get there right at opening. You will have a very limited window before crowds arrive.',
+   url:'https://maps.app.goo.gl/aFfJDdrbJEHVMSLA7'},
+  {id:78,name:'Tottenham Court Rd Tube',area:'westend',time:'day',lens:'12-24mm or 16-35mm',
+   desc:'An incredible location within Tottenham Court Road tube station, specifically down by the Central Line. There are a few similar staircases down there and they differ ever so slightly. I shot this from the top of the staircase holding my camera at a high angle and shot down at around 16mm.',
+   url:'https://maps.app.goo.gl/t3dbts1TeSgMVHiAA'},
+  {id:79,name:'Heals Furniture Store',area:'westend',time:'day',lens:'16-35mm',
+   desc:'Located within the beautiful furniture store known as Heals just off Tottenham Court Road. There is a lovely spiral staircase situated at the back of the store. Great to capture it from the bottom looking up, or from the top looking down. Make sure to be respectful when visiting.',
+   url:'https://maps.app.goo.gl/RXGnHPueKjfHXYi48'},
+  {id:80,name:'Oxford Circus Tube Exit',area:'westend',time:'sunrise',lens:'16-35mm',
+   desc:'Positioned at the top of the staircase leading out from the Oxford Circus tube station on the north-west side. It can get extremely busy here during rush hour so it is best to arrive here early morning if you are not wanting too many people around.',
+   url:'https://maps.app.goo.gl/wG2mSCyq5RqEmady5'},
+  {id:81,name:'Regent Street Centre',area:'westend',time:'night',lens:'16-35mm or 24-70mm',
+   desc:'Shooting on Regent Street can be a little overwhelming at times as there is so much going on. This location is actually on the raised curb in the middle of the road, so it is important to be careful. The best shots here involve waiting for a bus on either side to capture a long exposure.',
+   url:'https://maps.app.goo.gl/gmrb3YcYz3vdh5Kd8'},
+  {id:82,name:'Rosewood Hotel',area:'westend',time:'day',lens:'16-35mm',
+   desc:'A stunning location to shoot at but it is pretty difficult to get the ideal conditions. You want to visit here on an overcast day so that there are no harsh shadows or large amounts of glare. Enter via the main entrance and take the first right immediately as you go in. Follow the corridor, go up the marble staircase and head to the second floor.',
+   url:'https://maps.app.goo.gl/VL2Soz6xL5hMBzNk7'},
+  {id:83,name:'Piccadilly Circus',area:'westend',time:'night',lens:'16-35mm or 24-70mm',
+   desc:'Another super hectic location to shoot at in London, but one where you can capture some really cool panning shots. I like to visit here at night. Your best subjects are going to be cyclists, motorbikes or supercars. Shutter speed around 1/20, aperture around F/8.0 and ISO pretty low.',
+   url:'https://maps.app.goo.gl/FVexSpSyyh5sNtxH6'},
+  {id:84,name:'Chinatown London',area:'westend',time:'blue',lens:'24-70mm, 50mm or 85mm',
+   desc:'A great area to shoot in as there is always something to shoot at any given time of the day. However, it is definitely best to shoot here early morning or late at night if you are doing some car photography. It gets so busy during the day. Do a few laps — subjects always appear.',
+   url:'https://maps.app.goo.gl/r1qcCtN1ZqUNQNWh9'},
+  {id:85,name:'St Martins Theatre',area:'westend',time:'night',lens:'35mm, 50mm or 85mm',
+   desc:'A great location when taking a walk with your camera during the evening. The neon signs outside the theatre look great and you can capture some super cinematic imagery. I shot this particular photo from the reflection of another window opposite the theatre.',
+   url:'https://maps.app.goo.gl/8SPqpzaQRFdMnech7'},
+  {id:86,name:'Dean Street Express',area:'westend',time:'night',lens:'35mm or 50mm',
+   desc:'An epic location for doing some street photography at night as this specific location allows for some moody and unique shots. The frosted glass windows mean that you can capture some mysterious subjects in frame as they are leaving the building.',
+   url:'https://maps.app.goo.gl/qBUtQNG1b3Y53zdD8'},
+  {id:87,name:'Phoenix Theatre',area:'westend',time:'blue',lens:'24-70mm, 50mm or 85mm',
+   desc:'A great location for capturing some street photography in the city, especially during the later hours of the day or in low light. The lighting under here is great and illuminates subjects so well when they walk through the frame. Recommend shooting on a prime lens, maybe using a mist filter for a more dreamy look.',
+   url:'https://maps.app.goo.gl/37fTa4jKpZ1VDGH79'},
+  {id:88,name:'Piccadilly Window View',area:'westend',time:'day',lens:'16-35mm',
+   desc:'Nestled away within the Lillywhites sports shop in Piccadilly. Enter the store and take the stairs to the sixth floor and look out of the window to be presented with a stunning view which overlooks the whole area. The window is awkwardly positioned so you need to be cautious when shooting from this spot.',
+   url:'https://maps.app.goo.gl/JKR2WN5P9KZoX9Y47'},
+  {id:89,name:'Fortnum and Mason',area:'westend',time:'night',lens:'16-35mm',
+   desc:'A great spot for shooting in the winter and especially closer to the Christmas months. One thing that really makes this spot great is the reflection created by rain. If you shoot from a low angle and wait for a bus to go past then you can capture an awesome street shot. I typically shoot these handheld at around 1/3 or 1/5 of a second.',
+   url:'https://maps.app.goo.gl/ZhMtxjiQCN49uJuH9'},
+  {id:90,name:'Hide Restaurant',area:'westend',time:'day',lens:'16-35mm',
+   desc:'One of London\'s most incredible spiral staircases located within the Hide Restaurant in Green Park. It is up to the discretion of the staff, but you can pop your head in and ask nicely, and they will let you come in to take a photo.',
+   url:'https://maps.app.goo.gl/EkHQrcHJjSafotet6'},
+  {id:91,name:'Baker Street Station',area:'westlondon',time:'any',lens:'16-35mm',
+   desc:'One of London\'s finest tube stations and one that is incredibly photogenic. Get yourself towards the Hammersmith and City line platform and you will find yourself here. It can get a little busy so it is best to visit at an off-peak time.',
+   url:'https://maps.app.goo.gl/FvmZaVXHt385CzEbA'},
+  {id:92,name:'Natural History Museum',area:'westlondon',time:'sunrise',lens:'12-24mm',
+   desc:'The trick to getting the best shots here is to get yourself there early — by early I mean being the first one into the building when it opens. It gets super busy and you will only have a few minutes to get shots of the place looking empty, so it is worth the early start.',
+   tip:'Arrive right at opening. You will have a very limited window before the crowds arrive.',
+   url:'https://maps.app.goo.gl/4SdQsywB2zfnYkv98'},
+  {id:93,name:'V and A Museum',area:'westlondon',time:'sunrise',lens:'12-24mm',
+   desc:'One of my favourite hidden gems within London to shoot. From the main entrance take an immediate right and head up the marble staircase to the first floor and you will find this spot. To get the reflection you will have to prop your camera up on the glass cabinet and rest it there carefully.',
+   tip:'Free to visit. Best to shoot on a super wide angle lens.',
+   url:'https://maps.app.goo.gl/Af2gZEaUDTSEHN8L8'},
+  {id:94,name:'Dorset Hotel',area:'westlondon',time:'day',lens:'12-24mm or 16-35mm',
+   desc:'Located within the lobby of the Dorset Hotel in West London. Access this specific part of the hotel by going through the main entrance and veering off to the right after you have entered. You will be presented with a stunning structure and a room full of reflections.',
+   tip:'Bring a super wide angle for this one.',
+   url:'https://maps.app.goo.gl/3Nb6LQC1Zph4hFi97'},
+  {id:95,name:"St Luke's Mews",area:'westlondon',time:'sunrise',lens:'16-35mm',
+   desc:'London is home to a huge amount of Mews and they all make for incredible locations to take photos. This one is no exception. There are plenty of colourful houses, mixed with the cobbled streets which make for appealing photo spots.',
+   tip:'When visiting, remember that people live here. Be respectful.',
+   url:'https://maps.app.goo.gl/M7N7AYw7RqJpjFm99'},
+  {id:96,name:'Colville Houses',area:'westlondon',time:'sunrise',lens:'16-35mm',
+   desc:'Located just off a busy street, you will find this beautiful road filled with colourful houses which are lovely to shoot. I was lucky enough to spot this old car which fitted in perfectly with what I was shooting. Bring a wide angle lens and a prime lens for portraits.',
+   url:'https://maps.app.goo.gl/SBfdmZrDCWpWSE9v8'},
+  {id:97,name:'Battersea Power Station',area:'westlondon',time:'night',lens:'16-35mm or 24-70mm',
+   desc:'A classic reflection shot of Battersea Power Station, which you can find by standing opposite the building on the other side of the river. It is hard to line up the building so it is exactly centred due to some overgrown trees which block the view.',
+   url:'https://maps.app.goo.gl/EXk24nsvat5b6xsG8'},
+  {id:98,name:'Power Station Train Shot',area:'westlondon',time:'night',lens:'24-70mm or 70-200mm',
+   desc:'A great location for slow shutter shots and long exposures. The trains are here very frequently so you will not be waiting too long for something to move through the frame. Night time is definitely the best time to shoot here.',
+   url:'https://maps.app.goo.gl/kFfh1vFJiARD5K2B7'},
+  {id:99,name:'Harrods',area:'westlondon',time:'night',lens:'16-35mm or 24-70mm',
+   desc:'Another great location for the winter months of the year. Usually when it has rained there will be a series of reflections forming along Brompton Road which leads up towards Harrods. Shooting from a low angle you can capture the reflection along with a bus blur.',
+   tip:'Be careful when shooting next to the road.',
+   url:'https://maps.app.goo.gl/4nL62m465yhLuywD9'},
+  {id:100,name:'Bentall Centre Tunnel',area:'westlondon',time:'day',lens:'16-35mm',
+   desc:'You will find this really cool tunnel within the Bentall Centre in Kingston. It connects the car park and the shopping centre and is closest to car park A. During the day you can shoot this place with some amazing shadows.',
+   url:'https://maps.app.goo.gl/YEcJMTm4szrikHh27'},
+  {id:101,name:'The Big Easy',area:'canary',time:'blue',lens:'12-24mm',
+   desc:'Moving towards the East side of London, Canary Wharf is home to many gems for taking photos. There is a lot of security and they do not like professional cameras, so it is best to avoid using your tripod. This location is fantastic for capturing cityscapes.',
+   url:'https://maps.app.goo.gl/QpsrPXi6pAhhJurWA'},
+  {id:102,name:'West India Quay View',area:'canary',time:'blue',lens:'70-200mm',
+   desc:'From the platform of the DLR station looking into central London you can get a lovely view of the city. It is best shooting here when the sun is setting as you can capture some amazing shots of subjects walking and the shadows look great.',
+   url:'https://maps.app.goo.gl/7dNWA9jnTs6dEoeU8'},
+  {id:103,name:'West India Quay DLR',area:'canary',time:'blue',lens:'16-35mm',
+   desc:'From the end of Platform 2 in the West India Quay DLR station you can capture some nice long exposure shots of the DLR trains pulling into Canary Wharf station. Recommend a nice wide lens to capture the whole scene for a more impactful image.',
+   tip:'They are pretty strict on tripod use around here, so keep that in mind.',
+   url:'https://maps.app.goo.gl/7dNWA9jnTs6dEoeU8'},
+  {id:104,name:'Adams Place Tunnel',area:'canary',time:'any',lens:'16-35mm',
+   desc:'A classic spot in Canary Wharf and a must visit location if it is your first time visiting this area. A great location for capturing symmetry and some leading lines. Great for portraits and street photography, or if you have some creative ideas you want to try and bring to life.',
+   tip:'Can get busy — choose a wise time to visit.',
+   url:'https://maps.app.goo.gl/CgWGbNJsdLipLQPb8'},
+  {id:105,name:'Roof Garden',area:'canary',time:'day',lens:'35mm or 16-35mm',
+   desc:'A location that not too many people know about in the city and one I would definitely suggest visiting if you are wanting to shoot within a greener environment within London. A cool location for portraits or for some nice wide dramatic shots of the architecture.',
+   url:'https://maps.app.goo.gl/7apyMyTAqD2gMvaf9'},
+  {id:106,name:'Poplar DLR Tunnel',area:'canary',time:'night',lens:'16-35mm',
+   desc:'I love shooting here because it is usually pretty empty and it is a super epic location for shooting symmetry shots and anything that involves leading lines. Whether it is portraits or simply the tunnel itself, this place is great. During the day you can get some nice lighting coming in from the windows too.',
+   url:'https://maps.app.goo.gl/5iPUrXdRqsskx8AX6'},
+  {id:107,name:'Poplar DLR Station',area:'canary',time:'blue',lens:'16-35mm',
+   desc:'This shot was taken from Platform 2 in the Poplar DLR station looking across towards Canary Wharf. It does not tend to get too busy here which is great, but be careful when using tripods as the staff will likely tell you to put them away.',
+   url:'https://maps.app.goo.gl/Edrgh9XB7xBAYf6x8'},
+  {id:108,name:'Canary Wharf Tube Exit',area:'canary',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'A great spot for capturing some of the tube station\'s architecture. Find the spot when exiting Canary Wharf tube station on the East side. Extra nice when you have sunlight beaming through the glass roof and when there are not too many people around.',
+   tip:'Best at weekend early morning or after rush hour mid-week.',
+   url:'https://maps.app.goo.gl/gtRthUJ9jTngh8wEA'},
+  {id:109,name:'Canary Wharf Tunnel',area:'canary',time:'day',lens:'16-35mm',
+   desc:'A great location for shooting some portraits which incorporate some symmetry and leading lines. You will find this location next to the entrance of the Elizabeth Line near Adams Place Tunnel over on the left hand side by the water.',
+   url:'https://maps.app.goo.gl/LBBanXVus2sjM6SDA'},
+  {id:110,name:'Westferry Circus',area:'canary',time:'blue',lens:'24-70mm or 70-200mm',
+   desc:'From this viewpoint you can get a great view of central London and the skyline. An awesome one for sunset and blue hour because the city really pops at this time. The view overlooks the Thames and leads up to the city.',
+   url:'https://maps.app.goo.gl/YYrUoL8vueNZJgxG8'},
+  {id:111,name:'DLR Panning Shot',area:'canary',time:'blue',lens:'24-70mm or 50mm',
+   desc:'This panning shot was taken just outside the Canary Wharf tube station entrance looking towards the DLR track. The trains come here fairly frequently which makes for some great practice for shooting panning shots.',
+   url:'https://maps.app.goo.gl/dEpVuDXyPRrCJdkE7'},
+  {id:112,name:'KPMG Look Up Shot',area:'canary',time:'blue',lens:'12-24mm',
+   desc:'For a more dramatic shot here you will likely want to do a vertical panorama and then merge the photos in Lightroom. Take roughly 5-7 images in landscape and combine in post-production. However, solely using a wide lens is still more than enough to capture some really cool shots.',
+   url:'https://maps.app.goo.gl/gpaL5o4ZRYuWwZ616'},
+  {id:113,name:'Adams Place Side View',area:'canary',time:'sunrise',lens:'24-70mm or 70-200mm',
+   desc:'Right beside the symmetry tunnel lies this really nice vantage point where you can capture some really nicely composed street photography images. Early morning on a nice sunny weekend would be ideal. Isolated subjects and their shadows will be cast really nicely.',
+   url:'https://maps.app.goo.gl/BRUphRuDv8FXZ7eE6'},
+  {id:114,name:'Bokan Rooftop Bar',area:'canary',time:'blue',lens:'24-70mm or 70-200mm',
+   desc:'As you can tell from the title of this location, it is a rooftop bar — but the view it has of the city is amazing. You can make a reservation for drinks or a meal, and when you step out on to the balcony you will be presented with an insane view of the city.',
+   tip:'The view is through glass so you will need to watch out for reflections in your shots.',
+   url:'https://maps.app.goo.gl/q6y8ZvXRHvViSFXdA'},
+  {id:115,name:'Oakland Quay',area:'canary',time:'night',lens:'24-70mm or 50mm',
+   desc:'A really cool spot located just around the corner from the Canary Wharf area, and I have taken a few cars here to shoot. However, you are not typically allowed to park here so you need to watch out for cameras. You might be okay for 10 minutes or so but please do your own checks.',
+   tip:'Parking fines are a real risk here — please do your own checks.',
+   url:'https://maps.app.goo.gl/wDSq8gfHiHxLS2D76'},
+  {id:116,name:'Harbour Quay Gardens',area:'canary',time:'blue',lens:'16-35mm',
+   desc:'A nice location for shooting at during blue hour due to the buildings that illuminate and the reflections on the water. Arriving here with a wide angle lens is recommended to capture the entire scene. There is not just one particular location to get good photos from here — explore and see what you find.',
+   url:'https://maps.app.goo.gl/CJZazXr3nkxDXyhJA'},
+  {id:117,name:'Eden Dock',area:'canary',time:'blue',lens:'16-35mm or 24-70mm',
+   desc:'A relatively new photo spot that has opened up in Canary Wharf. A nice decking area with plenty of different places to shoot from and many different angles to capture of the cityscape. Open from sunrise and close at sunset.',
+   tip:'Open sunrise to sunset only.',
+   url:'https://maps.app.goo.gl/yDU3ttMn5CmtNXmp7'},
+  {id:118,name:'O2 Viewpoint',area:'east',time:'sunrise',lens:'16-35mm or 24-70mm',
+   desc:'This location provides a stunning view of the O2 arena and is a great spot for either a sunrise or at blue hour in the evening. It is a super chilled spot and it does not get busy at all. On a calm morning before there are boats, the reflection can be almost perfect.',
+   url:'https://maps.app.goo.gl/bQ5gzmyU2FDvoFDW6'},
+  {id:119,name:'O2 Ramp View',area:'east',time:'blue',lens:'24-70mm or 50mm',
+   desc:'A great location for car photography, but it has become very saturated and over shot across the years. The best times to shoot here are at sunset or blue hour, however these are the times where it is most busy. If you want it empty, visiting here midweek during the daytime is suggested.',
+   url:'https://maps.app.goo.gl/tmEU7B3ctAa7qL3H6'},
+  {id:120,name:'O2 Parkside',area:'east',time:'night',lens:'16-35mm or 24-70mm',
+   desc:'A quite cool location for taking some unique automotive photos. The blue shipping containers make for an awesome backdrop and if you shoot from a low angle then you can also implement the leading lines, which create a cool composition.',
+   url:'https://maps.app.goo.gl/HADExxdKeDXRFijMA'},
+  {id:121,name:'A102 Footbridge',area:'east',time:'day',lens:'16-35mm',
+   desc:'Another cool location filled with symmetry, leading lines and shadows — a spot that would be great for portraits. Located just a short walk away from North Greenwich tube station and can be reached by foot. Recommend shooting here during the day.',
+   url:'https://maps.app.goo.gl/sA1NWQZEA21r3yaYA'},
+  {id:122,name:'Primrose Hill',area:'parks',time:'sunrise',lens:'100-400mm',
+   desc:'Primrose Hill is a great location for shooting sunrise over the city and a spot that definitely is undershot at this hour. You will get the best colours in the sky and it will be a nice quiet location. I would recommend a large zoom lens — sometimes 70-200 does not even feel enough so a 100-400mm is suggested if you have one.',
+   tip:'Bring a tripod for this.',
+   url:'https://maps.app.goo.gl/kNzZShDTt4grgPwq8'},
+  {id:123,name:'Brockwell Park',area:'parks',time:'blue',lens:'100-400mm',
+   desc:'A fantastic location for getting a super unique viewpoint of the city from South London. I would recommend shooting on something like a 100-400mm lens to get the best frame. Sunset is also a great time to shoot here as you will get golden hour lighting.',
+   tip:'You will want a tripod for here too.',
+   url:'https://maps.app.goo.gl/wLyZVze7EKSWUCLX8'},
+  {id:124,name:'Norwood Park',area:'parks',time:'blue',lens:'100-400mm',
+   desc:'Similar to Brockwell Park, this place in South London offers a great view of the city. The views from both parks are super similar so I would only suggest visiting one of them. I shot this using my tripod and also a telephoto lens support in order to get a stable shot in low light.',
+   url:'https://maps.app.goo.gl/sVUAMcNEB1oaZsscA'},
+  {id:125,name:'Clapham Common Station',area:'parks',time:'day',lens:'16-35mm or 24-70mm',
+   desc:'One of London\'s coolest tube stations as you have trains coming in on either side of the platform, which creates ample photo opportunities. This station can get very busy during rush hour periods, but during the day it is quiet.',
+   url:'https://maps.app.goo.gl/oSYriWNSH4Ew2yYq5'},
+  {id:126,name:'Peckham Levels Car Park',area:'parks',time:'blue',lens:'70-200mm or more',
+   desc:'Located on the roof of Peckham Levels, you will find this incredible viewpoint which overlooks the city. Check the opening hours and make sure there are no events going on. Upon arrival you will need to take the staircase on the outside of the building to get to the top level.',
+   url:'https://maps.app.goo.gl/7UXKneHxvNefVoBv8'}
+];
+
+var WALKS = [
+  {id:'w1',name:'Tower Bridge Loop',area:'SE1',time:'sunrise',
+   duration:'2-3 hrs',distance:'2.5 km',
+   pitch:'Start riverside at Shad Thames, work through every angle of the bridge, and finish at the More London plaza as the light gets good.',
+   spots:[4,1,3,2,5,6,7,8,9,10]},
+  {id:'w2',name:'Southbank to London Bridge',area:'SE1',time:'night',
+   duration:'2-3 hrs',distance:'3 km',
+   pitch:'Night street photography at its most London. Rain makes every single shot better here.',
+   spots:[11,23,24,25,22,21,20,17,14,18]},
+  {id:'w3',name:"St Paul's Quarter",area:'EC4',time:'sunrise',
+   duration:'2 hrs',distance:'2 km',
+   pitch:'The Sunday morning walk. Empty streets, incredible light, and five different framings of the cathedral.',
+   spots:[40,38,27,30,32,31,28,36,34,33]},
+  {id:'w4',name:'The City of London',area:'EC2/EC3',time:'day',
+   duration:'3 hrs',distance:'2.5 km',
+   pitch:'Look up. The geometry of the Square Mile is unlike anywhere else in the world.',
+   spots:[58,44,45,57,56,52,50,53,54,46,49]},
+  {id:'w5',name:'Westminster and the Eye',area:'SW1',time:'sunrise',
+   duration:'2-3 hrs',distance:'3 km',
+   pitch:'The most photographed corridor in England. Go before 7am. Go when it rains.',
+   spots:[59,68,69,60,63,64,67,61,62,65,66]},
+  {id:'w6',name:'West End After Dark',area:'W1',time:'night',
+   duration:'2-3 hrs',distance:'2.5 km',
+   pitch:'Neon, rain, panning shots, and the kind of chaos that makes for great street photography.',
+   spots:[80,81,83,88,89,82,84,85,86,87]},
+  {id:'w7',name:'Kings Cross to Bloomsbury',area:'N1/WC1',time:'day',
+   duration:'2 hrs',distance:'1.5 km',
+   pitch:'Architecture, staircases, and tunnels. Underrated for photography and usually crowd-free on weekends.',
+   spots:[73,74,75,76,77,78,79]},
+  {id:'w8',name:'West London and Battersea',area:'SW3/SW8/W8',time:'any',
+   duration:'3-4 hrs',distance:'4 km',
+   pitch:'Spread out but worth the journey. Museums, mews streets, and the power station at dusk.',
+   spots:[91,92,93,94,95,96,99,97,98]},
+  {id:'w9',name:'Canary Wharf Circuit',area:'E14',time:'blue',
+   duration:'3 hrs',distance:'3.5 km',
+   pitch:'The most underrated evening walk in London. Glass, water, symmetry, and cranes at blue hour.',
+   spots:[102,103,104,113,109,108,112,111,105,106,107,110,114,116,117]},
+  {id:'w10',name:'East London and the O2',area:'SE10/E14',time:'blue',
+   duration:'2 hrs',distance:'2.5 km',
+   pitch:'A quiet corner of London that most photographers completely skip. Go at blue hour and you will have it to yourself.',
+   spots:[118,121,119,120,101,115]},
+  {id:'w11',name:'Parks, Hills and High Ground',area:'Various',time:'sunrise',
+   duration:'Half day',distance:'Multiple locations',
+   pitch:'The viewpoints that require a bit more effort to reach but give you perspectives that no one else has.',
+   spots:[72,71,70,62,122,123,124,126,125]}
+];
+
+// ── BUILD LOOKUP ──
+var SPOTS_BY_ID = {};
+for (var i = 0; i < SPOTS.length; i++) {
+  SPOTS_BY_ID[SPOTS[i].id] = SPOTS[i];
+}
+
+// ── STATE ──
+var currentFilter = 'all';
+var currentSearch = '';
+var currentView = 'explore';
+var savedData = {};
+try {
+  var savedArr = JSON.parse(localStorage.getItem('lps_saved') || '[]');
+  for (var i = 0; i < savedArr.length; i++) { savedData[savedArr[i]] = true; }
+} catch(e) {}
+
+function savePersist() {
+  var keys = [];
+  for (var k in savedData) { if (savedData[k]) keys.push(Number(k)); }
+  try { localStorage.setItem('lps_saved', JSON.stringify(keys)); } catch(e) {}
+}
+
+// ── TAG HELPERS ──
+function tagTime(t) {
+  var icons = {sunrise:'&#127749;',day:'&#9728;',blue:'&#127750;',night:'&#127769;',any:'&#9200;'};
+  var cls = {sunrise:'tag-sunrise',day:'tag-day',blue:'tag-blue',night:'tag-night',any:'tag-any'};
+  return '<span class="tag ' + cls[t] + '">' + (icons[t] || '') + ' ' + TIME[t] + '</span>';
+}
+
+function tagArea(a) {
+  return '<span class="tag tag-' + a + '">' + AREA[a] + '</span>';
+}
+
+// ── FILTER ──
+function getFiltered() {
+  var results = [];
+  var q = currentSearch.toLowerCase();
+  for (var i = 0; i < SPOTS.length; i++) {
+    var s = SPOTS[i];
+    var matchSearch = true;
+    if (q) {
+      matchSearch = s.name.toLowerCase().indexOf(q) >= 0 ||
+        AREA[s.area].toLowerCase().indexOf(q) >= 0 ||
+        s.desc.toLowerCase().indexOf(q) >= 0 ||
+        s.lens.toLowerCase().indexOf(q) >= 0;
+    }
+    var matchFilter = true;
+    if (currentFilter === 'saved') {
+      matchFilter = !!savedData[s.id];
+    } else if (currentFilter.indexOf('area:') === 0) {
+      matchFilter = s.area === currentFilter.slice(5);
+    } else if (currentFilter.indexOf('time:') === 0) {
+      matchFilter = s.time === currentFilter.slice(5);
+    }
+    if (matchSearch && matchFilter) results.push(s);
+  }
+  return results;
+}
+
+// ── RENDER SPOTS ──
+function renderSpots() {
+  var list = document.getElementById('spotsList');
+  var empty = document.getElementById('emptyState');
+  var rNum = document.getElementById('resultsNum');
+  var rLabel = document.getElementById('resultsLabel');
+  var filtered = getFiltered();
+
+  if (filtered.length === 0) {
+    list.innerHTML = '';
+    empty.className = 'empty show';
+    rNum.textContent = '';
+    rLabel.textContent = 'No results';
+    return;
+  }
+  empty.className = 'empty';
+  rNum.textContent = filtered.length + ' spot' + (filtered.length !== 1 ? 's' : '');
+
+  if (currentFilter === 'all' && !currentSearch) {
+    rLabel.textContent = 'All locations';
+  } else if (currentFilter.indexOf('area:') === 0) {
+    rLabel.textContent = AREA[currentFilter.slice(5)] || 'Locations';
+  } else if (currentFilter.indexOf('time:') === 0) {
+    rLabel.textContent = TIME[currentFilter.slice(5)] || 'Locations';
+  } else if (currentFilter === 'saved') {
+    rLabel.textContent = 'Saved spots';
+  } else {
+    rLabel.textContent = currentSearch ? '"' + currentSearch + '"' : 'All locations';
+  }
+
+  var html = '';
+  for (var i = 0; i < filtered.length; i++) {
+    var s = filtered[i];
+    var isSaved = !!savedData[s.id];
+    var numStr = s.id < 10 ? '0' + s.id : '' + s.id;
+    html += '<div class="spot-card" id="card-' + s.id + '">';
+    html += '<div class="spot-header" onclick="toggleSpot(' + s.id + ')">';
+    html += '<div class="spot-num">' + numStr + '</div>';
+    html += '<div class="spot-main">';
+    html += '<div class="spot-name">' + s.name + '</div>';
+    html += '<div class="spot-tags">' + tagArea(s.area) + tagTime(s.time);
+    html += '<span class="tag tag-lens">&#128247; ' + s.lens + '</span>';
+    html += '</div></div>';
+    html += '<div class="spot-arrow">&#9660;</div>';
+    html += '</div>';
+    html += '<div class="spot-body">';
+    html += '<div class="spot-rule"></div>';
+    html += '<div class="meta-grid">';
+    html += '<div class="meta-item"><div class="meta-label">Best time</div><div class="meta-value">' + TIME[s.time] + '</div></div>';
+    html += '<div class="meta-item"><div class="meta-label">Lens</div><div class="meta-value">' + s.lens + '</div></div>';
+    html += '</div>';
+    html += '<div class="spot-desc">' + s.desc + '</div>';
+    if (s.tip) { html += '<div class="spot-tip">' + s.tip + '</div>'; }
+    html += '<div class="spot-actions">';
+    html += '<a class="map-btn" href="' + s.url + '" target="_blank">&#8599; Open in Maps</a>';
+    html += '<button class="' + (isSaved ? 'save-btn saved' : 'save-btn') + '" onclick="toggleSave(event,' + s.id + ')" title="Save">' + (isSaved ? '&#9733;' : '&#9734;') + '</button>';
+    html += '</div></div></div>';
+  }
+  list.innerHTML = html;
+}
+
+// ── RENDER WALKS ──
+function renderWalks() {
+  var container = document.getElementById('walksList');
+  var html = '';
+  for (var i = 0; i < WALKS.length; i++) {
+    var w = WALKS[i];
+    var wNum = (i + 1) < 10 ? '0' + (i + 1) : '' + (i + 1);
+    var firstSpot = SPOTS_BY_ID[w.spots[0]];
+    html += '<div class="walk-card" id="wcard-' + w.id + '">';
+    html += '<div class="walk-header" onclick="toggleWalk(\'' + w.id + '\')">';
+    html += '<div class="walk-num">' + wNum + '</div>';
+    html += '<div class="walk-info">';
+    html += '<div class="walk-name">' + w.name + '</div>';
+    html += '<div class="walk-chips">' + tagArea(w.time === 'any' ? 'westlondon' : w.time === 'sunrise' ? 'tower' : w.time === 'blue' ? 'canary' : w.time === 'night' ? 'westend' : 'city') + tagTime(w.time) + '</div>';
+    html += '<div class="walk-stats">' + w.spots.length + ' stops &nbsp;&middot;&nbsp; ' + w.distance + ' &nbsp;&middot;&nbsp; ' + w.duration + '</div>';
+    html += '<div class="walk-pitch">' + w.pitch + '</div>';
+    html += '</div>';
+    html += '<div class="walk-arrow">&#9660;</div>';
+    html += '</div>';
+    html += '<div class="walk-body">';
+    html += '<div class="walk-rule"></div>';
+    html += '<div class="walk-start-row">';
+    if (firstSpot) {
+      html += '<a class="walk-cta" href="' + firstSpot.url + '" target="_blank">&#8599; Start here</a>';
+    }
+    html += '<span class="walk-stop-count">' + w.spots.length + ' stops in order</span>';
+    html += '</div>';
+    html += '<div class="walk-timeline">';
+    for (var j = 0; j < w.spots.length; j++) {
+      var s = SPOTS_BY_ID[w.spots[j]];
+      if (!s) continue;
+      var stopNum = (j + 1) < 10 ? '0' + (j + 1) : '' + (j + 1);
+      var itemId = 'ws-' + w.id + '-' + s.id;
+      var isSaved = !!savedData[s.id];
+      html += '<div class="walk-stop-item" id="' + itemId + '">';
+      html += '<div class="walk-stop-num" onclick="toggleWalkStop(\'' + w.id + '\',' + s.id + ')">' + stopNum + '</div>';
+      html += '<div class="walk-stop-card">';
+      html += '<div class="walk-stop-head" onclick="toggleWalkStop(\'' + w.id + '\',' + s.id + ')">';
+      html += '<div class="walk-stop-name">' + s.name + '</div>';
+      html += tagTime(s.time);
+      html += '<span class="walk-stop-arrow" style="margin-left:8px">&#9660;</span>';
+      html += '</div>';
+      html += '<div class="walk-stop-body">';
+      html += '<div class="walk-stop-rule"></div>';
+      html += '<div class="spot-desc">' + s.desc + '</div>';
+      if (s.tip) { html += '<div class="spot-tip">' + s.tip + '</div>'; }
+      html += '<div class="spot-actions">';
+      html += '<a class="map-btn" href="' + s.url + '" target="_blank">&#8599; Maps</a>';
+      html += '<button class="' + (isSaved ? 'save-btn saved' : 'save-btn') + '" onclick="toggleSave(event,' + s.id + ')" title="Save">' + (isSaved ? '&#9733;' : '&#9734;') + '</button>';
+      html += '</div></div></div></div>';
+    }
+    html += '</div></div></div>';
+  }
+  container.innerHTML = html;
+}
+
+// ── TOGGLES ──
+function toggleSpot(id) {
+  var card = document.getElementById('card-' + id);
+  if (!card) return;
+  card.className = card.className.indexOf('open') >= 0 ? 'spot-card' : 'spot-card open';
+}
+
+function toggleWalk(id) {
+  var card = document.getElementById('wcard-' + id);
+  if (!card) return;
+  card.className = card.className.indexOf('open') >= 0 ? 'walk-card' : 'walk-card open';
+}
+
+function toggleWalkStop(walkId, spotId) {
+  var itemId = 'ws-' + walkId + '-' + spotId;
+  var item = document.getElementById(itemId);
+  if (!item) return;
+  item.className = item.className.indexOf('open') >= 0 ? 'walk-stop-item' : 'walk-stop-item open';
+}
+
+function toggleSave(e, id) {
+  e.stopPropagation();
+  savedData[id] = !savedData[id];
+  savePersist();
+  var btn = e.target || e.srcElement;
+  if (savedData[id]) {
+    btn.className = 'save-btn saved';
+    btn.innerHTML = '&#9733;';
+  } else {
+    btn.className = 'save-btn';
+    btn.innerHTML = '&#9734;';
+  }
+  if (currentFilter === 'saved') renderSpots();
+}
+
+// ── VIEW SWITCHING ──
+function showView(view) {
+  currentView = view;
+  var exploreEl = document.getElementById('view-explore');
+  var walksEl = document.getElementById('view-walks');
+  var coverEl = document.getElementById('coverId');
+  var controlsEl = document.getElementById('controls');
+  var navItems = document.querySelectorAll('.nav-item');
+
+  if (view === 'walks') {
+    exploreEl.style.display = 'none';
+    walksEl.style.display = 'block';
+    coverEl.style.display = 'none';
+    controlsEl.style.display = 'none';
+  } else {
+    exploreEl.style.display = 'block';
+    walksEl.style.display = 'none';
+    coverEl.style.display = 'flex';
+    controlsEl.style.display = 'block';
+    if (view === 'saved') {
+      currentFilter = 'saved';
+      var chips = document.querySelectorAll('.chip');
+      for (var i = 0; i < chips.length; i++) {
+        chips[i].className = chips[i].getAttribute('data-f') === 'saved' ? 'chip active' : 'chip';
+      }
+      renderSpots();
+    }
+  }
+
+  for (var i = 0; i < navItems.length; i++) {
+    navItems[i].className = 'nav-item';
+  }
+  var activeNav = document.getElementById('nav-' + (view === 'saved' ? 'saved' : view));
+  if (activeNav) activeNav.className = 'nav-item active';
+}
+
+// ── EVENTS ──
+var chipsRow = document.getElementById('chipsRow');
+chipsRow.onclick = function(e) {
+  var t = e.target || e.srcElement;
+  while (t && t.tagName !== 'BUTTON') { t = t.parentNode; }
+  if (!t || !t.getAttribute('data-f')) return;
+  var allChips = chipsRow.querySelectorAll('.chip');
+  for (var i = 0; i < allChips.length; i++) { allChips[i].className = 'chip'; }
+  t.className = 'chip active';
+  currentFilter = t.getAttribute('data-f');
+  renderSpots();
+};
+
+var searchInput = document.getElementById('searchInput');
+searchInput.oninput = function() {
+  currentSearch = searchInput.value ? searchInput.value.replace(/^\s+|\s+$/g,'') : '';
+  renderSpots();
+};
+
+// ── INIT ──
+renderSpots();
+renderWalks();
+</script>
+</body>
+</html>
